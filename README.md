@@ -1,0 +1,2 @@
+# GoodThink
+Welcome to GoodThink
