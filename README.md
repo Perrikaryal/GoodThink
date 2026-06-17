@@ -17,3 +17,5 @@ you can close the app by locking your phone, closing the chosen app (e.g., Insta
 In setup, if entire screen is selected instead of single app, this will result in a black screen which can be fixed by just closing the app (locking and unlocking your phone)
 
 Have fun and think happy thoughts!
+
+Go to perrikaryal.com/goodthink to download
