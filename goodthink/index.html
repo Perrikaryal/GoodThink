@@ -2,16 +2,290 @@
 <link rel="canonical" href="https://perrikaryal.com/goodthink/" />
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GoodThink</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoodThink&trade; - Think Happy Thoughts</title>
+<style>
+  :root{
+    --smiley:#ffd21a;
+    --smiley-edge:#e0a800;
+    --panel:#f4f1e4;
+    --ink:#241f12;
+    --deep:#0d1330;
+    --deep-2:#1b2456;
+    --accent:#16307a;
+    --warn:#c4322b;
+    --green-1:#6fc24f;
+    --green-2:#3c8a32;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+
+  body{
+    font-family:Verdana,Tahoma,Geneva,sans-serif;
+    font-size:13px; color:var(--ink); line-height:1.5;
+    padding:18px 12px 40px;
+    background-color:#070b1f;
+    /* tiled wall of faint watching smileys + starfield */
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,.4), transparent),
+      radial-gradient(1px 1px at 45% 85%, rgba(255,255,255,.4), transparent),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='70' height='70'><g opacity='0.10'><circle cx='35' cy='35' r='15' fill='none' stroke='%23ffd21a' stroke-width='2'/><circle cx='30' cy='32' r='2' fill='%23ffd21a'/><circle cx='40' cy='32' r='2' fill='%23ffd21a'/><path d='M28 38 Q35 45 42 38' fill='none' stroke='%23ffd21a' stroke-width='2' stroke-linecap='round'/></g></svg>");
+    background-attachment:fixed;
+    cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28'><circle cx='14' cy='14' r='11' fill='%23ffd21a' stroke='%23e0a800' stroke-width='2'/><circle cx='10' cy='12' r='1.6' fill='%231a1a1a'/><circle cx='18' cy='12' r='1.6' fill='%231a1a1a'/><path d='M9 16 Q14 21 19 16' fill='none' stroke='%231a1a1a' stroke-width='1.8' stroke-linecap='round'/></svg>") 14 14, auto;
+  }
+
+  /* beveled outer panel - classic early-2000s site frame */
+  .site{
+    max-width:720px; margin:0 auto;
+    background:var(--panel);
+    border:3px solid #fff;
+    border-right-color:#9a937c; border-bottom-color:#9a937c;
+    box-shadow:0 0 0 1px #3a3526, 0 14px 40px rgba(0,0,0,.6);
+  }
+
+  /* glossy header banner */
+  .banner{
+    position:relative; overflow:hidden; text-align:center; color:#fff;
+    padding:20px 16px 16px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.22) 0 48%, rgba(255,255,255,0) 49%),
+      linear-gradient(180deg,var(--deep-2),var(--deep));
+    border-bottom:3px ridge #c9c2a4;
+  }
+  .made{
+    position:absolute; top:8px; right:10px;
+    font:italic bold 11px/1 "Trebuchet MS",Verdana; color:#bcd0ff;
+    display:flex; align-items:center; gap:5px; text-shadow:0 1px 2px #000;
+  }
+  .made .orb{width:16px;height:16px;}
+  .bigface{width:92px;height:92px;display:block;margin:0 auto 4px;
+    filter:drop-shadow(0 0 16px rgba(255,210,26,.7));}
+  .banner h1{
+    margin:0; font:bold 34px/1 "Trebuchet MS",Verdana,sans-serif; letter-spacing:1px;
+    color:var(--smiley); text-shadow:0 2px 0 #7a5c00, 0 0 16px rgba(255,210,26,.55);
+  }
+  .banner h1 .reg{font-size:14px;vertical-align:super;}
+  .banner .watching{
+    margin:5px 0 0; font:bold 11px/1.3 Verdana; letter-spacing:3px;
+    text-transform:uppercase; color:#9fb6ff;
+  }
+
+  /* marquee */
+  .marquee{
+    overflow:hidden; white-space:nowrap; background:#000; color:var(--smiley);
+    font:bold 13px/1 "Courier New",monospace; letter-spacing:2px;
+    padding:7px 0; border-bottom:2px solid #c9c2a4;
+  }
+  .marquee span{display:inline-block;padding-left:100%;animation:scroll 19s linear infinite;}
+  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-100%);}}
+
+  .content{padding:18px 20px 22px;}
+
+  .welcome{text-align:center;margin:0 0 4px;font:bold 17px/1.3 "Trebuchet MS",Verdana;color:var(--accent);}
+  .tagline{text-align:center;margin:0 0 16px;color:#3a3526;}
+  .tagline b{color:var(--warn);}
+
+  /* download button - glossy era button */
+  .dlwrap{text-align:center;margin:6px 0 22px;}
+  .download{
+    display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:#0e2a0c;
+    font:bold 17px/1 "Trebuchet MS",Verdana; padding:14px 28px; border-radius:9px;
+    border:1px solid #2c6e2c;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.65) 0 47%, rgba(255,255,255,.08) 48%),
+      linear-gradient(180deg,var(--green-1),var(--green-2));
+    box-shadow:0 3px 0 #275f24, 0 6px 12px rgba(0,0,0,.4);
+    transition:filter .1s ease, transform .05s ease, box-shadow .05s ease;
+  }
+  .download:hover{filter:brightness(1.07);}
+  .download:active{transform:translateY(3px);box-shadow:0 0 0 #275f24,0 2px 6px rgba(0,0,0,.4);}
+  .download .dico{width:22px;height:22px;flex:none;}
+  .dlnote{font-size:11px;color:#5a5341;margin-top:8px;}
+  .dlnote code{background:#fff;border:1px solid #c9c2a4;padding:1px 4px;}
+
+  /* mascot tip */
+  .mascot{
+    display:flex;gap:12px;align-items:flex-start;
+    background:#fffbdc;border:1px solid #d9c97a;border-radius:8px;
+    padding:12px 14px; margin:0 0 18px;
+  }
+  .mascot .mface{width:44px;height:44px;flex:none;}
+  .mascot .mtext{font-family:"Comic Sans MS","Trebuchet MS",cursive;font-size:13px;color:#4a3b00;}
+  .mascot .mtext b{color:var(--accent);}
+
+  /* section panels */
+  .section{
+    background:#fbf9f0; border:2px groove #d8d0b2; border-radius:6px;
+    margin:0 0 18px; padding:0 16px 14px;
+  }
+  .section h2{
+    display:flex;align-items:center;gap:8px;
+    margin:0 -16px 6px; padding:8px 16px;
+    font:bold 14px/1 "Trebuchet MS",Verdana; color:#fff;
+    background:linear-gradient(180deg,#3551a8,var(--accent));
+    border-radius:4px 4px 0 0;
+  }
+  .section h2 .hico{width:18px;height:18px;}
+
+  ol.steps{margin:10px 0 0;padding:0;list-style:none;counter-reset:s;}
+  ol.steps>li{
+    position:relative; counter-increment:s; padding:8px 4px 8px 40px; min-height:30px;
+    border-bottom:1px dotted #d2cab0;
+  }
+  ol.steps>li:last-child{border-bottom:0;}
+  ol.steps>li::before{
+    content:counter(s); position:absolute; left:2px; top:7px;
+    width:26px;height:26px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#ffe97a,var(--smiley) 65%,var(--smiley-edge));
+    border:1px solid var(--smiley-edge); color:#5a4500; font:bold 14px/26px Verdana; text-align:center;
+  }
+  .sub{
+    margin-top:8px; padding:8px 10px; font-size:12px; color:#3a3526;
+    background:#fffef6; border:1px solid #e3dcb8; border-radius:4px;
+  }
+  .sub b{color:var(--accent);}
+  .kbd{background:#ece9d8;border:1px solid #999;border-bottom-width:2px;border-radius:3px;padding:0 5px;font:11px/1.7 Verdana;}
+  .arrow b{color:var(--accent);}
+
+  ul.notes{margin:10px 0 0;padding:0;list-style:none;}
+  ul.notes>li{position:relative;padding:7px 4px 7px 26px;color:#3a3526;border-bottom:1px dotted #d2cab0;}
+  ul.notes>li:last-child{border-bottom:0;}
+  ul.notes>li::before{
+    content:""; position:absolute; left:3px; top:9px;
+    width:14px;height:14px;border-radius:50%;
+    background:var(--smiley);border:1px solid var(--smiley-edge);box-shadow:inset 0 0 0 2px #fffef6;
+  }
+  ul.notes em{font-style:normal;color:var(--warn);font-weight:bold;}
+
+  /* footer */
+  .footer{text-align:center;color:#3a3526;border-top:2px ridge #d8d0b2;padding-top:16px;}
+  .footer .happy{font:bold 16px/1.3 "Trebuchet MS",Verdana;color:var(--accent);margin-bottom:10px;}
+  .footer .happy .blink{animation:blink 1.1s steps(1) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0;}
+  .badge{font:10px/1.4 Verdana;padding:3px 8px;border-radius:3px;border:1px solid #888;background:#fff;color:#444;}
+  .counter{display:inline-block;background:#000;color:#27e327;font:bold 13px/1 "Courier New",monospace;letter-spacing:2px;padding:4px 8px;border:1px solid #444;border-radius:2px;}
+  .signoff{margin-top:12px;font:italic bold 12px/1.4 "Trebuchet MS",Verdana;color:var(--accent);}
+  .disclaimer{margin-top:14px;font-size:9.5px;line-height:1.5;color:#8a8266;max-width:520px;margin-left:auto;margin-right:auto;}
+
+  @media (max-width:520px){
+    .banner h1{font-size:26px;}
+    .content{padding:14px;}
+    .made{position:static;justify-content:center;margin-bottom:6px;}
+  }
+</style>
 </head>
 <body>
-  <h1>GoodThink</h1>
-  <p>Turn that frown upside down. Available for Android.</p>
-  <a href="https://github.com/perrikaryal/goodthink/releases/download/v1.0.0/app-release.apk" download>
-    Download APK
-  </a>
-  <p><small>After downloading, open the file on your Android device to install. You may need to allow "Install from unknown sources" in your settings.</small></p>
+
+<div class="site">
+
+  <!-- glossy banner -->
+  <div class="banner">
+    <div class="made">
+      <svg class="orb" viewBox="0 0 16 16"><defs><radialGradient id="orb" cx="38%" cy="32%" r="70%"><stop offset="0" stop-color="#8fb6ff"/><stop offset="55%" stop-color="#2a3b8c"/><stop offset="100%" stop-color="#0a0f2b"/></radialGradient></defs><circle cx="8" cy="8" r="7" fill="url(%23orb)" stroke="#000" stroke-width=".6"/><circle cx="6" cy="6" r="1.4" fill="#cfe0ff" opacity=".8"/></svg>
+      Made by Palantír
+    </div>
+    <svg class="bigface" viewBox="0 0 120 120"><defs><radialGradient id="g" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fff1a8"/><stop offset="55%" stop-color="#ffd21a"/><stop offset="100%" stop-color="#e0a800"/></radialGradient></defs><circle cx="60" cy="60" r="54" fill="url(%23g)" stroke="#b98900" stroke-width="2"/><circle cx="43" cy="50" r="6" fill="#1a1a1a"/><circle cx="77" cy="50" r="6" fill="#1a1a1a"/><circle cx="45" cy="48" r="1.6" fill="#fff"/><circle cx="79" cy="48" r="1.6" fill="#fff"/><path d="M36 72 Q60 100 84 72" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round"/></svg>
+    <h1>GoodThink<span class="reg">™</span></h1>
+    <p class="watching">Always watching · Always smiling</p>
+  </div>
+
+  <!-- marquee -->
+  <div class="marquee"><span>☺ FROWNS ARE THOUGHTCRIME ☺ HAPPINESS IS MANDATORY ☺ GOODTHINK IS DOUBLEPLUSGOOD ☺ A SMILE A DAY KEEPS THE FROWN AWAY ☺ THINK HAPPY THOUGHTS ☺</span></div>
+
+  <div class="content">
+
+    <h2 class="welcome">Welcome to GoodThink!</h2>
+    <p class="tagline">This app will revolutionise your social media experience by turning that <b>FROWN</b> upside <b>DOWN!</b></p>
+
+    <!-- download -->
+    <div class="dlwrap">
+      <a class="download" href="https://github.com/Perrikaryal/GoodThink/releases/latest/download/app-release.apk" download>
+        <svg class="dico" viewBox="0 0 24 24"><path d="M12 3v10m0 0l-4-4m4 4l4-4" fill="none" stroke="#0e2a0c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2a1 1 0 001 1h14a1 1 0 001-1v-2" fill="none" stroke="#0e2a0c" stroke-width="2.2" stroke-linecap="round"/></svg>
+        Download GoodThink (.apk)
+      </a>
+      <div class="dlnote">Android only · <code>app-release.apk</code></div>
+    </div>
+
+    <!-- mascot -->
+    <div class="mascot">
+      <svg class="mface" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" fill="#ffd21a" stroke="#b98900" stroke-width="1.5"/><circle cx="17" cy="20" r="2.4" fill="#1a1a1a"/><circle cx="31" cy="20" r="2.4" fill="#1a1a1a"/><path d="M14 29 Q24 39 34 29" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/></svg>
+      <div class="mtext">Hi there! I noticed you were about to feel something. <b>Don't worry</b> - GoodThink will take care of that for you. Just follow the steps below and leave the frowning to us!</div>
+    </div>
+
+    <!-- setup -->
+    <div class="section">
+      <h2>
+        <svg class="hico" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#ffd21a" stroke="#b98900"/><circle cx="6" cy="7" r="1" fill="#1a1a1a"/><circle cx="10" cy="7" r="1" fill="#1a1a1a"/><path d="M5 9.5 Q8 12.5 11 9.5" fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Setup
+      </h2>
+      <ol class="steps">
+        <li>Install the GoodThink <code>.apk</code> onto your Android device and open the app.</li>
+        <li>
+          Allow <b>accessibility settings</b>. This may require allowing <b>restricted settings</b> for the app.
+          <div class="sub">
+            <b>To allow restricted settings:</b> tap <span class="kbd">Find out how</span>, then go back to
+            <span class="arrow">Settings <b>→</b> Apps <b>→</b> GoodThink</span>, tap the <b>three dots</b> menu
+            <span class="arrow"><b>→</b></span> <span class="kbd">Allow restricted settings</span>.
+          </div>
+        </li>
+        <li>Allow <b>notifications</b>. This lets you close GoodThink from your notifications shade.</li>
+        <li>Select <b>SINGLE APP</b>, then choose the app you'd like to use GoodThink for - for example, Instagram.</li>
+      </ol>
+    </div>
+
+    <!-- notes -->
+    <div class="section">
+      <h2>
+        <svg class="hico" viewBox="0 0 16 16"><path d="M8 1.5 15 14H1z" fill="#ffd21a" stroke="#b98900" stroke-linejoin="round"/><rect x="7.1" y="6" width="1.8" height="4" rx=".9" fill="#1a1a1a"/><circle cx="8" cy="11.6" r="1" fill="#1a1a1a"/></svg>
+        Good to know
+      </h2>
+      <ul class="notes">
+        <li><em>Android only.</em></li>
+        <li>The screen filter covers the visibility of the buttons at the bottom of your phone (home button, etc.) - but they are still useable.</li>
+        <li>The screen filter won't let notifications and similar be viewed while it's open. To view notifications, go back to your home screen.</li>
+        <li>You can close the app by locking your phone, closing the chosen app (e.g. Instagram), or selecting <b>Close</b> from your notifications if allowed.</li>
+        <li>During setup, if <b>entire screen</b> is selected instead of <b>single app</b>, you'll get a black screen. Fix it by closing the app - just lock and unlock your phone.</li>
+      </ul>
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+      <div class="happy">Have fun and think happy thoughts! <span class="blink">☺</span></div>
+      <div class="badges">
+        <span class="badge">✓ Best viewed in Internet Explorer 6</span>
+        <span class="badge">✓ Ministry of Joy Approved</span>
+        <span class="badge">✓ 100% Frown-Free</span>
+      </div>
+      <div>Smiling visitors so far: <span class="counter" id="counter">00001984</span></div>
+      <div class="signoff">Made by Palantír</div>
+      <p class="disclaimer">
+        "Palantír" has no affiliation with, and is not related to, any corporation of a similar name.
+        It is simply a reference to the seeing-stones of <i>The Lord of the Rings</i>.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // visitor counter ticks gently upward, because everyone is always smiling
+  var c=1984;
+  setInterval(function(){c++;document.getElementById('counter').textContent=String(c).padStart(8,'0');},4000);
+
+  // ominously cheerful cursor trail
+  document.addEventListener('mousemove',function(e){
+    if(Math.random()>0.18) return;
+    var s=document.createElement('div');
+    s.textContent='☺';
+    s.style.cssText='position:fixed;z-index:9;pointer-events:none;left:'+e.clientX+'px;top:'+e.clientY+'px;'
+      +'color:#ffd21a;font-size:14px;text-shadow:0 0 4px rgba(0,0,0,.5);transition:all 1s ease;opacity:.9;';
+    document.body.appendChild(s);
+    requestAnimationFrame(function(){s.style.top=(e.clientY+24)+'px';s.style.opacity='0';});
+    setTimeout(function(){s.remove();},1000);
+  });
+</script>
 </body>
 </html>
