@@ -15,4 +15,5 @@ the screen filter will cover the visibility of buttons on the bottom of your pho
 the screen filter will not allow notifications etc. to be viewed while it is also open. You can view notifications by going back to your home screen
 you can close the app by locking your phone, closing the chosen app (e.g., Instagram), or selecting close from your notifications if allowed
 In setup, if entire screen is selected instead of single app, this will result in a black screen which can be fixed by just closing the app (locking and unlocking your phone)
+
 Have fun and think happy thoughts!
